@@ -1,32 +1,37 @@
-\name{sim.model7}
+\name{sim.model*}
+\alias{sim.model1}
+\alias{sim.model2}
+\alias{sim.model3}
+\alias{sim.model4}
+\alias{sim.model5}
+\alias{sim.model6}
 \alias{sim.model7}
-%- Also NEED an '\alias' for EACH other topic documented here.
+\alias{sim.tsay}
 \title{
-%%  ~~function to do ... ~~
+Simulate a realization of a specific time series models of length n.
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+These methods are used to generate realizations of a set of time series 
+models for use in evaluating the power of the statistical tests in this
+package.
 }
 \usage{
-sim.model7(n, sd = 1, startup = 100, full = FALSE)
+sim.model1(n)
+sim.model2(n)
+sim.model3(n)
+sim.model4(n)
+sim.model5(n)
+sim.model6(n)
+sim.model7(n)
+sim.tsay(n)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{n}{
-%%     ~~Describe \code{n} here~~
-}
-  \item{sd}{
-%%     ~~Describe \code{sd} here~~
-}
-  \item{startup}{
-%%     ~~Describe \code{startup} here~~
-}
-  \item{full}{
-%%     ~~Describe \code{full} here~~
-}
+  \item{n}{Length of returned realization.}
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+The default burn-in period is 100, except for \code{sim.model1} and 
+\code{sim.model2} uses burn which uses the burn-in period computed
+by \code{arima.sim}
 }
 \value{
 %%  ~Describe the value returned
@@ -56,10 +61,9 @@ sim.model7(n, sd = 1, startup = 100, full = FALSE)
 ##--	or do  help(data=index)  for the standard data sets.
 
 ## The function is currently defined as
-function (n, sd = 1, startup = 100, full = FALSE) 
+function (n) 
 {
-    setar.sim.simple(thresholds = 0, model = list(c(0, 0.6), 
-        c(0, 0.6)), n = n, delay = 1, sd = c(sd, 1.5 * sd), startup = startup)
+    arima.sim(n, model = list(ar = c(0.4, -0.3)))
   }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

@@ -1,9 +1,10 @@
 Package: setarwav
 Type: Package
 Title: Test for SETAR Nonlinearity using Wavelet Variance and Surrogate Data
-Version: 1.0
+Version: 0.1
 Date: 2012-12-29
 Author: Miguel Manese
 Maintainer: Miguel Manese <jjonphl@gmail.com>
+Depends: R (>= 2.15.1), tseries (>= 0.10-29), wmtsa (>= 1.1-1), signal (>= 0.7.2)
 Description: Tests for SETAR Nonlinearity using Wavelet Variance and Surrogate Data and other benchmark tests.
 License: BSD
