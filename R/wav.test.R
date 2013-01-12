@@ -270,8 +270,17 @@ wav.test <- function(y, delay, q=0.333, wavelet="s8", fill.mean=F,
 
 surr.wav.test <- function(y, delay, surr.N=100, q=0.2, wavelet="s8", 
                       pvalue.alpha=0.05, levels=NULL) {
+    modwt.missing.opts <- list(r=modwt.missing.r,
+                               rcpp=modwt.missing.rcpp)
+    modwt.missing <- modwt.missing.opts[[getOption("setarwav")$modwt.missing]]
+
+    if (is.null(modwt.missing)) {
+        stop("getOption(\"setarwav\")$modwt.missing should be either \"r\" or \"rcpp\"")
+    }
+
     stat <- function(x) {
         wav.test(x, delay=delay, q=q, wavelet=wavelet, debug=FALSE, 
+                  modwt.missing=modwt.missing,
                   levels=levels, stat.type=6) 
     }
 
@@ -297,6 +306,9 @@ surr.wav.test <- function(y, delay, surr.N=100, q=0.2, wavelet="s8",
     #} else {
     #    pvalue <- 2 * pvalue
     #}
+
+    # cleanup names
+    names(reject) <- NULL
 
     list(reject=reject, stat=y.stat, conf.int=conf.int, pvalue=pvalue)
 

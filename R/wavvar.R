@@ -34,6 +34,7 @@ beta <- function(idx, Lj, j) {
     beta
     #ret
 }
+
 beta.cmp <- cmpfun(beta)
 
 # outer product of 2 vectors
