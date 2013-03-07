@@ -35,7 +35,7 @@ beta <- function(idx, Lj, j) {
     #ret
 }
 
-beta.cmp <- cmpfun(beta)
+beta.cmp <- compiler::cmpfun(beta)
 
 # outer product of 2 vectors
 # used to compte h[j,l1]*h[j,l2]
@@ -76,15 +76,15 @@ x.op2 <- function(x, Lj, time) {
     xm <- matrix(rep(x, times=Lj), nr=Lj)
     (t(xm) - xm)^2
 }
-x.op2.cmp <- cmpfun(x.op2)
+x.op2.cmp <- compiler::cmpfun(x.op2)
 
 # up-sample a vector, insert u zeros in b/w elements
-up.sample <- function(x, u) {
-    N <- length(x)
-    ret <- rep(0, (N-1)*(u+1) + 1)
-    ret[seq.int(1,length(ret), by=u+1)] <- x
-    ret
-}
+#up.sample <- function(x, u) {
+#    N <- length(x)
+#    ret <- rep(0, (N-1)*(u+1) + 1)
+#    ret[seq.int(1,length(ret), by=u+1)] <- x
+#    ret
+#}
 
 modwt.missing.r <- function(x, wavelet, n.levels, idx) {
     N <- length(x)

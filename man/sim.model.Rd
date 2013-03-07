@@ -43,9 +43,6 @@ by \code{arima.sim}
 \references{
 %% ~put references to the literature/web site here ~
 }
-\author{
-%%  ~~who you are~~
-}
 \note{
 %%  ~~further notes~~
 }

@@ -5,7 +5,7 @@ Version: 0.1
 Date: 2012-12-29
 Author: Miguel Manese <mrmanese@up.edu.ph>
 Maintainer: Miguel Manese <jjonphl@gmail.com>
-Depends: R (>= 2.15.1), stats, compiler, Rcpp(>= 0.9.13), tseries (>= 0.10-29), wmtsa (>= 1.1-1), signal (>= 0.7.2)
+Depends: R (>= 2.15.1), stats, compiler, Rcpp(>= 0.9.13), tseries (>= 0.10-29), wmtsa (>= 1.1-1)
 Description: Tests for SETAR Nonlinearity using Wavelet Variance and Surrogate Data and other benchmark tests.
 License: BSD
 LinkingTo: Rcpp

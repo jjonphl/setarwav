@@ -1,11 +1,3 @@
-up.sample <- function(x, by) {
-    .Call("upsample", as.numeric(x), as.integer(by))
-}
-
-convolve.rcpp <- function(x, y) {
-    .Call("convolve", as.numeric(x), as.numeric(y))
-}
-
 betahat <- function(idx, Lj, j) {
     .Call("betahat", as.integer(idx), as.integer(Lj), as.integer(j))
 }
