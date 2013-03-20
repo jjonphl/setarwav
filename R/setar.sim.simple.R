@@ -1,6 +1,5 @@
-setar.sim.simple <-
-function(thresholds, model, n, delay, 
-                      sd=1, startup=100){
+setar.sim.simple <- function(n, thresholds, model, delay, 
+                             sd=1, startup=100){
     if (!is.list(model)) {
         stop("model should be a list(ar.regime1, ar.regime2, ...)")
     }

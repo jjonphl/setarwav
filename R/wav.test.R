@@ -1,3 +1,19 @@
+partition <- function(y, delay, q) {
+    cutoff <- quantile(y, prob=c(q, 1-q), type=4)
+    nobs <- length(y)
+    eff.nobs <- nobs - delay
+
+    idx.lo <- (y[1:eff.nobs] < cutoff[2])
+    idx.up <- (y[1:eff.nobs] > cutoff[1])
+    #idx.up <- (y[1:eff.nobs] > cutoff[1])
+
+    y.eff <- y[(delay+1):nobs]
+    y.lo <- y.eff * as.numeric(idx.lo)
+    y.up <- y.eff * as.numeric(idx.up)
+
+    list(y.eff=y.eff,idx.lo=idx.lo,idx.up=idx.up,y.lo=y.lo,y.up=y.up)
+}
+
 wav.test <- function(y, delay, q=0.333, wavelet="s8", fill.mean=F, 
                       pvalue.alpha=0.05, stat.type=-1, 
                       modwt.missing=modwt.missing.r, #TODO: modwt.missing.rcpp
@@ -26,7 +42,7 @@ wav.test <- function(y, delay, q=0.333, wavelet="s8", fill.mean=F,
     if (is.null(levels)) {
         # do not include last level to be sure beta^{-1} does not
         # have 0 element
-        levels <- wavMaxLevel(wav$length, length(y), "modwt") - 1
+        levels <- wavMaxLevel(wav$length, length(y.eff), "modwt") - 1
     }
 
     modwt.y <- wavMODWT(y.eff, wavelet, levels)
@@ -268,11 +284,11 @@ wav.test <- function(y, delay, q=0.333, wavelet="s8", fill.mean=F,
 }
 
 
-surr.wav.test <- function(y, delay, surr.N=100, q=0.2, wavelet="s8", 
-                      pvalue.alpha=0.05, levels=NULL) {
+surr.wav.test <- function(y, delay, surr.N=100, q=0.333, wavelet="s8", 
+                      pvalue.alpha=0.05, levels=NULL, aaft=FALSE) {
     modwt.missing.opts <- list(r=modwt.missing.r,
                                rcpp=modwt.missing.rcpp)
-    modwt.missing <- modwt.missing.opts[[getOption("setarwav")$modwt.missing]]
+    modwt.missing <- modwt.missing.opts[[getOption("setarwav.mode")]]
 
     if (is.null(modwt.missing)) {
         stop("getOption(\"setarwav\")$modwt.missing should be either \"r\" or \"rcpp\"")
@@ -284,7 +300,7 @@ surr.wav.test <- function(y, delay, surr.N=100, q=0.2, wavelet="s8",
                   levels=levels, stat.type=6) 
     }
 
-    surr <- surrogate(y, ns=surr.N, fft=TRUE, amplitude=TRUE, statistic=stat)
+    surr <- surrogate(y, ns=surr.N, fft=TRUE, amplitude=aaft, statistic=stat)
 
     y.stat <- surr$orig.statistic
     surr.data <- with(surr, statistic[!is.na(statistic)])

@@ -103,8 +103,8 @@ modwt.missing.r <- function(x, wavelet, n.levels, idx) {
             gj <- g
         } else {
             .g <- gj
-            hj <- conv(.g, up.sample(h, 2^(j-1)-1))
-            gj <- conv(.g, up.sample(g, 2^(j-1)-1))
+            hj <- convolve.rcpp(.g, up.sample(h, 2^(j-1)-1))
+            gj <- convolve.rcpp(.g, up.sample(g, 2^(j-1)-1))
         }
         Lj <- length(hj)
 

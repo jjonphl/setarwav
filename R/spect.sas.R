@@ -1,6 +1,6 @@
 
-spect.sas <- function(y, maxd) {
-    ss <- quantile(y, prob=c(0.333, 0.667), type=4)
+spect.sas <- function(y, maxd, q=0.333) {
+    ss <- quantile(y, prob=c(q, 1-q), type=4)
     q1 <- ss[1]; q3 <- ss[2]
     nobs <- length(y)
 

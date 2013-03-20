@@ -1,7 +1,7 @@
-.First.lib <- function(libname, pkgname) {
-    options(setarwav=list(modwt.missing="r"))
+.onLoad <- function(libname, pkgname) {
+    options(setarwav.mode="rcpp")
 }
 
-.Last.lib <- function() {
+.onUnload <- function(libpath) {
     options(setarwav=NULL)
 }
