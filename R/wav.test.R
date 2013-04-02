@@ -8,8 +8,8 @@ partition <- function(y, delay, q) {
     #idx.up <- (y[1:eff.nobs] > cutoff[1])
 
     y.eff <- y[(delay+1):nobs]
-    y.lo <- y.eff * as.numeric(idx.lo)
-    y.up <- y.eff * as.numeric(idx.up)
+    y.lo <- ifelse(idx.lo, y.eff, NA)
+    y.up <- ifelse(idx.up, y.eff, NA)
 
     list(y.eff=y.eff,idx.lo=idx.lo,idx.up=idx.up,y.lo=y.lo,y.up=y.up)
 }
@@ -291,7 +291,7 @@ surr.wav.test <- function(y, delay, surr.N=100, q=0.333, wavelet="s8",
     modwt.missing <- modwt.missing.opts[[getOption("setarwav.mode")]]
 
     if (is.null(modwt.missing)) {
-        stop("getOption(\"setarwav\")$modwt.missing should be either \"r\" or \"rcpp\"")
+        stop("getOption(\"setarwav.mode\") should be either \"r\" or \"rcpp\"")
     }
 
     stat <- function(x) {

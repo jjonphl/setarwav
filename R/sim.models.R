@@ -44,7 +44,7 @@ sim.model07 <- function(n, sd=1, startup=100, full=FALSE) {
 sim.model08 <- function(n, sd=1, startup=100) {
     setar.sim.simple(thresholds=0, 
                      model=list(c(0, 1.22, -0.44), c(0, -0.25, -0.05)), 
-                     n=n, delay=1, sd=1, startup=startup)  # TODO: delay=2 !!! fuck
+                     n=n, delay=2, sd=1, startup=startup) 
 }
 
 # SETAR  - X[n] = | X[n-2] < 0: 1.22*X[n-1] - 0.44*X[n-2] + e[n]
@@ -52,7 +52,7 @@ sim.model08 <- function(n, sd=1, startup=100) {
 sim.model09 <- function(n, sd=1, startup=100) {
     setar.sim.simple(thresholds=0, 
                      model=list(c(0, 1.22, -0.44), c(0, 1.10, -0.5)), 
-                     n=n, delay=1, sd=1, startup=startup)
+                     n=n, delay=2, sd=1, startup=startup)
 }
 
 # SETAR - X[n] = | X[n-3] < -1: -0.03*X[n-1] + 0.73*X[n-2] - 0.09*X[n-3] + e[n]

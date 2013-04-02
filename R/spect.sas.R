@@ -13,6 +13,8 @@ spect.sas <- function(y, maxd, q=0.333) {
                     df=numeric(0), pvalue=numeric(0))
     p <- data.frame(M=integer(0), delay=integer(0), chisq=numeric(0),
                     df=numeric(0), pvalue=numeric(0))
+
+    #bspect.d <- list()   # JON: save computed spect
     for (del in 1:maxd) {
         eff <- nobs - del
         startx <- del + 1
@@ -40,7 +42,9 @@ spect.sas <- function(y, maxd, q=0.333) {
         endM   <- startM + 5
 
         pchi <- 0
-        #bspect <- list()
+        #bspect.lo <- list()   # JON: save computed spect
+        #bspect.hi <- list()   # JON: save computed spect
+        #bspect.freq <- list()
 
         for (M in Mset) {
             em <- M
@@ -51,7 +55,9 @@ spect.sas <- function(y, maxd, q=0.333) {
             #-----------------------------------------------------
             endj <- floor(em/.775)
             delw <- (.775*pi / em)
-            #bspect[[M]] <- rep(0, endj)    # JON: save computed spect
+            #bspect.lo[[M]] <- rep(0, endj)    # JON: save computed spect
+            #bspect.hi[[M]] <- rep(0, endj)    # JON: save computed spect
+            #bspect.freq[[M]] <- rep(0, endj)    # JON: save computed spect
 
             # bartlett-priestly
             r <- 1:M
@@ -82,7 +88,9 @@ spect.sas <- function(y, maxd, q=0.333) {
                         }
                     }
 
-                    #bspect[[M]][j] <- lspectrum # JON: save computed spect
+                    #bspect.lo[[M]][j] <- lspectrum # JON: save computed spect
+                    #bspect.hi[[M]][j] <- hspectrum # JON: save computed spect
+                    #bspect.freq[[M]][j] <- w
 
                     if (lspectrum * hspectrum > 0) {
                         xn <- log(lspectrum / hspectrum)
@@ -243,9 +251,11 @@ spect.sas <- function(y, maxd, q=0.333) {
 
             p <- rbind(p, data.frame(M=em,delay=del,chisq=chi1,df=df1,pchi=pchi))
         } # M
+
+        #bspect.d[[del]] <- list(hi=bspect.hi, lo=bspect.lo, freq=bspect.freq)  # JON: save spect
     } # del
 
-    list(bartlett=b, fejer=f, parzen=p)
+    list(bartlett=b, fejer=f, parzen=p) #, bspect=bspect.d)
 }
 
 

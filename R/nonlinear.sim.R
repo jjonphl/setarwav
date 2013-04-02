@@ -103,7 +103,7 @@ setar.sim2 <- function(thresholds, model, n, delay,
 
         # compute setar
         regime <- which(y[d] < thresholds)[1] - 1 
-        rs[i-1] <- regime              # record previous regime
+        rs[i] <- regime              # record previous regime
         coefs <- model[[regime]]
         p <- length(coefs) - 1         # 1st arg is intercept
         idx <- seq(i-1, max(i-p,1))

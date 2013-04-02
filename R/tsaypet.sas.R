@@ -8,18 +8,18 @@ tsaypet <- function(y, maxp, maxd) {
             df1 <- p + 1
             h <- max(1, p+1-delay)
             b <- floor(nobs/10) + p
-            X <- matrix(1, b, p+1)
-            yx <- matrix(0, b, 1)
+            X <- matrix(1, b, p+1)    # auto-regressors (sorted by state lag)
+            yx <- matrix(0, b, 1)     # dep var (sorted by state lag)
             ndx <- h:(nobs-delay)
             ytd <- y[ndx]
             ix <- sort(ytd, index.return=TRUE)$ix
-            yt <- as.matrix(cbind(ndx[ix], ytd[ix]))
+            yt <- as.matrix(cbind(ndx[ix], ytd[ix])) # "state lag" sorted [idx,val]
 
             j <- 0; j1 <- 0
             while (j < b) {
                 j1 <- j1 + 1
-                pii <- yt[j1, 1]
-                k <- pii + delay
+                pii <- yt[j1, 1]   # idx of j1-th state lag
+                k <- pii + delay   # current obs for j1-th state lag
                 if (k > p) {
                     j <- j+1; yx[j] <- y[k];
                     for (p1 in 2:df1) {
@@ -32,9 +32,9 @@ tsaypet <- function(y, maxp, maxd) {
 
             pm <- solve(t(X) %*% X)
             beta <- pm %*% t(X) %*% yx
-            s <- sum((yx - X %*% beta)^2)
-            eff <- nobs - delay - h + 1 - b
-            xm <- matrix(1, p+1, 1)
+            s <- sum((yx - X %*% beta)^2)   # error squared
+            eff <- nobs - delay - h + 1 - b # remaining observations
+            xm <- matrix(1, p+1, 1)         # next regressor, col vector
             xm2 <- matrix(1, eff, p+1)
             resid <- matrix(0, eff, 1)
             z <- matrix(0, eff, 1)
@@ -55,15 +55,16 @@ tsaypet <- function(y, maxp, maxd) {
                 xm2[i1,] <- xm
                 dm <- as.numeric(1 + t(xm) %*% pm %*% xm)
                 km <- (pm %*% xm)/dm
-                a <- ym - t(xm) %*% beta
+                a <- ym - t(xm) %*% beta   # prediction error
                 inter <- (xm %*% t(xm))/dm
                 pm <- (diag(1,p+1) - pm %*%inter) %*% pm
                 beta <- beta + km %*% (ym - t(xm) %*% beta)
-                resid[i1,] <- a/sqrt(dm)
-                s <- s + resid[i1,]^2
-                z[i1,] <- resid[i1]/sqrt(s/div)
+                resid[i1,] <- a/sqrt(dm)   # std pred error
+                s <- s + resid[i1,]^2      # accumulated sum of errors
+                z[i1,] <- resid[i1]/sqrt(s/div) # ???
             }
 
+            # regress against errors for Tsay F
             nb <- solve(t(xm2) %*% xm2) %*% (t(xm2) %*% resid)
             eps <- resid - (xm2 %*% nb)
             sumsqres <- sum(resid^2)
@@ -102,5 +103,5 @@ tsaypet <- function(y, maxp, maxd) {
             }
         }  # p
     } # d
-    list(delay=maxd, p=maxp, tsayFdf=c(df1,df2), pvtsay=pvtsay, pvp=pvpetru)
+    list(delay=maxd, p=maxp, tsayFdf=c(df1,df2), pvtsay=pvtsay, pvp=pvpetru) #, resid=resid, xm=xm2)
 } # function

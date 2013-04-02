@@ -3,5 +3,5 @@
 }
 
 .onUnload <- function(libpath) {
-    options(setarwav=NULL)
+    options(setarwav.mode=NULL)
 }
